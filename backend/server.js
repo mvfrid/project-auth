@@ -101,7 +101,8 @@ app.post("/login", async (req, res) => {
 
 const SecretSchema = new mongoose.Schema({
   message: {
-    type: String
+    type: String,
+    required: true
   },
   createdAt: {
     type: Date,
@@ -109,7 +110,7 @@ const SecretSchema = new mongoose.Schema({
   },
   username: {
     type: String,
-    require: true
+    required: true
   }
 });
 
@@ -139,18 +140,45 @@ const authenticateUser = async (req, res, next) => {
 
 app.get("/secrets", authenticateUser);
 app.get("/secrets", async(req, res) => {
-  const secrets = await Secret.find({});
-  res.status(200).json({success: true, response: secrets})
+  try {
+    const secrets = await Secret.find({});
+    res.status(200).json({
+      success: true, 
+      response: secrets
+    })
+  } catch (e) {
+    res.status(500).json({
+      success: false, 
+      response: e, 
+      message: "Ground control... Abort Abort!"
+    });
+  }
 });
 
 app.post("/secrets", authenticateUser);
 app.post("/secrets", async (req, res) => {
-  const { message } = req.body;
-  const accessToken = req.header("Authorization");
-  const username = await User.findOne({accessToken: accessToken});
-  const secrets = await new Secret({message: message, username: username._id}).save();
-  res.status(201).json({success: true, response: secrets})
-});
+  try {
+    const { message } = req.body;
+    const accessToken = req.header("Authorization");
+    const username = await User.findOne({accessToken: accessToken});
+    const secrets = await new Secret({
+      message: message, 
+      username: username._id
+    }).save();
+    res.status(201).json({
+      success: true, 
+      response: secrets
+    })
+  } catch (e) {
+    res.status(500).json({
+      success: false, 
+      response: e, 
+      message: "nope get out"
+    });
+  }
+})
+
+
 
 
 // Start the server
