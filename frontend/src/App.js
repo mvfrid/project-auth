@@ -1,9 +1,10 @@
 import React from 'react';
+import { FrontPage } from './components/FrontPage'
 
 export const App = () => {
   return (
-    <div>
-      Find me in src/app.js!
+    <div className="main-wrapper">
+      <FrontPage />
     </div>
   );
 }
