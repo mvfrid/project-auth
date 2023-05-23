@@ -70,7 +70,7 @@ res.status(201).json({
   }
 });
 
-//CREATE LOGIN FOR USER
+//LOGIN
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -81,7 +81,8 @@ app.post("/login", async (req, res) => {
         response: {
           username: user.username,
           id: user._id,
-          accessToken: user.accessToken
+          accessToken: user.accessToken,
+          message: "Login successful"
         }
       });
     } else {
@@ -98,7 +99,58 @@ app.post("/login", async (req, res) => {
   }
 });
 
+const SecretSchema = new mongoose.Schema({
+  message: {
+    type: String
+  },
+  createdAt: {
+    type: Date,
+    default: () => new Date()
+  },
+  username: {
+    type: String,
+    require: true
+  }
+});
 
+const Secret = mongoose.model("Secrets", SecretSchema);
+
+// Authenticate the user
+const authenticateUser = async (req, res, next) => {
+  const accessToken = req.header("Authorization");
+  try {
+    const user = await User.findOne({accessToken: accessToken});
+    if (user) {
+      next();
+    } else {
+      res.status(401).json({
+        success: false,
+        response: "Please log in",
+        loggedOut: true
+      })
+    }
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      response: e
+    });
+  }
+}
+
+app.get("/secrets", authenticateUser);
+app.get("/secrets", async(req, res) => {
+  const secrets = await Secret.find({});
+  res.status(200).json({success: true, response: secrets})
+});
+
+app.post("/secrets", authenticateUser);
+app.post("/secrets", async (req, res) => {
+  const { message } = req.body;
+  const accessToken = req.header("Authorization");
+  const username = await User.findOne({accessToken: accessToken});
+  const secrets = await new Secret({message: message, username: username._id}).save();
+  res.status(201).json({success: true, response: secrets})
+});
 
 
 // Start the server
