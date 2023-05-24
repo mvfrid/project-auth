@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 // Här e vi osäkra om det ska vara items eller message
     
-export const Secrets = createSlice({
+export const secrets = createSlice({
         username: "secrets", 
         initialState: {
          items: [],
