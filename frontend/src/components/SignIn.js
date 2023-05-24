@@ -4,6 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { user } from "reducers/user";
 import { API_URL } from "utils/urls";
 
+
+//MUI template imports
+import { 
+CssBaseline, 
+Container, 
+Typography, 
+Box,  
+TextField, 
+Button, 
+Grid, 
+Link } from '@mui/material';
+
 export const SignIn = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -44,8 +56,68 @@ export const SignIn = () => {
             })
     }
     return(
-        <>  
-            <label htmlFor="register">Register</label>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" noValidate onSubmit={onFormSubmit} sx={{ mt: 1 }}>
+            <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="email"
+                autoComplete="username" />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="new-password"/>
+                </Grid>
+         
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Container>
+
+        
+
+            {/* <label htmlFor="register">Register</label>
             <input 
                 type="radio" 
                 id="register" 
@@ -71,8 +143,4 @@ export const SignIn = () => {
                     value={password} 
                     onChange={e => setPassword(e.target.value)} />
                 <button type="submit">Submit</button>
-        </form>
-        </>
-       
-    );
-}
+        </form> */}
