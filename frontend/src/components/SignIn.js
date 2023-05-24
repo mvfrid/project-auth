@@ -7,7 +7,7 @@ import { API_URL } from "utils/urls";
 export const SignIn = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [mode, setMode] = useState("signin");
+    const [mode, setMode] = useState("login");
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const accessToken = useSelector(store => store.user.accessToken);
@@ -51,12 +51,12 @@ export const SignIn = () => {
                 id="register" 
                 checked={mode === "register"}
                 onChange={() => setMode("register")}/>
-            <label htmlFor="signin">Login</label>
+            <label htmlFor="login">Login</label>
             <input 
                 type="radio" 
-                id="signin" 
-                checked={mode === "signin"}
-                onChange={() => setMode("signin")}/>
+                id="login" 
+                checked={mode === "login"}
+                onChange={() => setMode("login")}/>
             <form onSubmit={onFormSubmit}>
                 <label htmlFor="username">Username</label>
                 <input 

@@ -163,7 +163,8 @@ app.post("/secrets", async (req, res) => {
     const username = await User.findOne({accessToken: accessToken});
     const secrets = await new Secret({
       message: message, 
-      username: username._id
+      username: username
+      // username: username._id
     }).save();
     res.status(201).json({
       success: true, 
