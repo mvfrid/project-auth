@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FrontPage } from './components/FrontPage';
+import { SignIn } from './components/SignIn'
 import { user } from 'reducers/user';
 import { secrets } from 'reducers/secrets';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
@@ -21,7 +22,8 @@ export const App = () => {
     <BrowserRouter>
     <div className="main-wrapper">
     <Routes>
-      <Route path='/FrontPage' element={<FrontPage/>}></Route>
+      <Route path='/signin' element={<SignIn/>}></Route>
+      <Route path='/frontpage' element={<FrontPage/>}></Route>
     </Routes>
     </div>
     </BrowserRouter>
