@@ -14,9 +14,10 @@ Box,
 TextField, 
 Button, 
 Grid, 
-Link } from '@mui/material';
+CircularProgress } from '@mui/material';
 
 export const SignIn = () => {
+    const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [mode, setMode] = useState("signin");
@@ -54,7 +55,9 @@ export const SignIn = () => {
                     dispatch(user.actions.setError(data.response))
                 }
             })
-    }
+            .finally(() => { setLoading(false) })
+    };
+
     return(
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -77,8 +80,8 @@ export const SignIn = () => {
                 fullWidth
                 id="username"
                 label="Username"
-                name="email"
-                autoComplete="username" />
+                value={username}
+                onChange={e => setUsername(e.target.value)} />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -88,33 +91,28 @@ export const SignIn = () => {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="new-password"/>
+                value={password}
+                onChange={e => setPassword(e.target.value)} />
                 </Grid>
-         
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
-        </Container>
-
+            <Typography variant="body1" color="red" textTransform={'uppercase'} margin={'5px auto'}> 
+            </Typography>
+            </Grid>
+            {!loading &&
+            <Button
+              type="signin"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}>
+                Submit
+            </Button>}
+          <Grid container>
+          </Grid>
+        </Box>
+        {loading && <CircularProgress style={{ margin: '20px' }} />}
+      </Box>
+    </Container>
+  );
+};
         
 
             {/* <label htmlFor="register">Register</label>
@@ -144,3 +142,4 @@ export const SignIn = () => {
                     onChange={e => setPassword(e.target.value)} />
                 <button type="submit">Submit</button>
         </form> */}
+        
