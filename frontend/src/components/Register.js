@@ -20,6 +20,7 @@ export const Register = () => {
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loginError, setLoginError] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const mode = "register"
@@ -48,17 +49,20 @@ export const Register = () => {
                     dispatch(user.actions.setUsername(data.response.username));
                     dispatch(user.actions.setUserId(data.response.id));
                     dispatch(user.actions.setError(null));
+                    setLoginError(false);
                 } else {
                     dispatch(user.actions.setAccessToken(null));
                     dispatch(user.actions.setUsername(null));
                     dispatch(user.actions.setUserId(null));
                     dispatch(user.actions.setError(data.response))
+                    setLoginError(true);
                 }
             })
             .finally(() => { setLoading(false) })
     };
 
     return(
+      <div className="main-container">
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -69,7 +73,10 @@ export const Register = () => {
               alignItems: 'center',
             }}
           >
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5" sx={{
+              paddingTop: 3,
+              marginBottom: 1
+            }}>
               Register
             </Typography>
             <Box component="form" noValidate onSubmit={onFormSubmit} sx={{ mt: 1 }}>
@@ -81,7 +88,9 @@ export const Register = () => {
                 id="username"
                 label="Username"
                 value={username}
-                onChange={e => setUsername(e.target.value)} />
+                onChange={e => setUsername(e.target.value)}
+                error={loginError}
+                helperText={loginError ? mode==='login' ? 'Wrong username' : 'Name Taken' : ''} />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -92,7 +101,10 @@ export const Register = () => {
                 type="password"
                 id="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)} />
+                onChange={e => setPassword(e.target.value)} 
+                autoComplete="current-password"
+                error={loginError}
+                helperText={loginError ? mode === 'login' ? 'Credentials do not match' : '': ''} />
                 </Grid>
             <Typography variant="body1" color="red" textTransform={'uppercase'} margin={'5px auto'}> 
             </Typography>
@@ -111,5 +123,6 @@ export const Register = () => {
         {loading && <CircularProgress style={{ margin: '20px' }} />}
       </Box>
     </Container>
+    </div>
   );
 };
