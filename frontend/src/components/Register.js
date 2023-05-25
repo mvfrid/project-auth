@@ -24,6 +24,7 @@ export const Register = () => {
     const navigate = useNavigate();
     const mode = "register"
     const accessToken = useSelector(store => store.user.accessToken);
+
     useEffect(() => {
         if(accessToken) {
             navigate("/secrets")

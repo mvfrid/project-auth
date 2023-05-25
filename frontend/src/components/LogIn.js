@@ -92,7 +92,8 @@ export const LogIn = () => {
                 type="password"
                 id="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)} />
+                onChange={e => setPassword(e.target.value)}
+              />
                 </Grid>
             <Typography variant="body1" color="red" textTransform={'uppercase'} margin={'5px auto'}> 
             </Typography>
