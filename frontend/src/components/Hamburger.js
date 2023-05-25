@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
 //MUI template imports
 import { 
@@ -70,7 +71,7 @@ export const Hamburger = () => {
           sx={{ 
             mr: 3, 
             margin: 0,
-            padding: '12px 16px 12px 0'
+            padding: '16px 16px 16px 0'
           }}
         >
           <MenuIcon
