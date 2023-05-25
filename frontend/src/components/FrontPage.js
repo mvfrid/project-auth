@@ -10,7 +10,7 @@ export const FrontPage = () => {
       }
 
     return (
-    <div className="main">
+    <div className="main-container">
         <div className="frontpage">
             <p>Welcome to your secret diary</p>
             <Button type="submit"
@@ -19,7 +19,7 @@ export const FrontPage = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
             >
-                SIGN IN
+                LOG IN
             </Button>
         </div>
     </div>
