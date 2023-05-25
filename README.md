@@ -16,4 +16,4 @@ Frontend:
 https://calm-custard-0d2bb8.netlify.app/
 
 Backend:
-https://project-express-api-amd2viobia-nw.a.run.app
+https://project-auth-3nbrs2gipa-lz.a.run.app/
