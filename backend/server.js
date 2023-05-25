@@ -144,8 +144,39 @@ const authenticateUser = async (req, res, next) => {
 }
 
 app.get("/secrets", authenticateUser);
+app.get("/secrets", async (req, res) => {
+  try {
+    const accessToken = req.header("Authorization");
+    const user = await User.findOne({ accessToken: accessToken });
+
+    if (user) {
+      const secrets = await Secret.find({ username: user._id });
+      res.status(200).json({
+        success: true,
+        response: secrets,
+      });
+    } else {
+      res.status(401).json({
+        success: false,
+        response: "Please log in",
+        loggedOut: true,
+      });
+    }
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      response: e,
+      message: "Ground control... Abort Abort!",
+    });
+  }
+});
+
+
+/*
+app.get("/secrets", authenticateUser);
 app.get("/secrets", async(req, res) => {
   try {
+    const accessToken = req.header("Authorization");
     const secrets = await Secret.find({});
     res.status(200).json({
       success: true, 
@@ -159,16 +190,18 @@ app.get("/secrets", async(req, res) => {
     });
   }
 });
+*/
 
 app.post("/secrets", authenticateUser);
 app.post("/secrets", async (req, res) => {
   try {
     const { message } = req.body;
     const accessToken = req.header("Authorization");
-    const username = await User.findOne({accessToken: accessToken});
+    const user = await User.findOne({accessToken: accessToken});
     const secrets = await new Secret({
       message: message, 
-      username: username
+      username: user._id
+      // username: username
       // username: username._id
     }).save();
     res.status(201).json({
