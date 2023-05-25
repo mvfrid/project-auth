@@ -21,6 +21,9 @@ export const user = createSlice({
         },
         setError: (store, action) => {
             store.error = action.payload
+        },
+        signOut: (store) => {
+            store.accessToken = null
         }
     }
 });

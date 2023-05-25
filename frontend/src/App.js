@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FrontPage } from './components/FrontPage';
-import { SignIn } from './components/SignIn'
+import { LogIn } from './components/LogIn';
+import { Register } from './components/Register'
 import { Secrets } from './components/Secrets'
 import { user } from 'reducers/user';
 import { secrets } from 'reducers/secrets';
@@ -23,7 +24,8 @@ export const App = () => {
     <BrowserRouter>
     <div className="main-wrapper">
     <Routes>
-      <Route path='/signin' element={<SignIn/>}></Route>
+      <Route path='/login' element={<LogIn/>}></Route>
+      <Route path='/register' element={<Register/>}></Route>
       <Route path='/' element={<FrontPage/>}></Route>
       <Route path='/secrets' element={<Secrets/>}></Route>
     </Routes>

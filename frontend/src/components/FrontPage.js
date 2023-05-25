@@ -6,7 +6,7 @@ export const FrontPage = () => {
     const navigate = useNavigate();
 
     const onClickGoToSignIn = () => {
-        navigate('/signin');
+        navigate('/login');
       }
 
     return (

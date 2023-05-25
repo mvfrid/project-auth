@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { user } from "reducers/user";
 import { secrets } from "reducers/secrets";
 import { API_URL } from "utils/urls";
+import { Button } from '@mui/material';
 
 export const Secrets = () => {
     const [message, setMessage] = useState("");
@@ -15,7 +16,7 @@ export const Secrets = () => {
 
     useEffect(() => {
         if(!accessToken) {
-            navigate("/signin")
+            navigate("/login")
         }
     }, [accessToken]);
 
@@ -69,6 +70,12 @@ export const Secrets = () => {
         }
     };
 
+    const handleLogOut = () => {
+        dispatch(user.actions.signOut());
+        if(!accessToken) {
+            navigate("/login")
+        }
+    }
 
 
     return (
@@ -87,7 +94,14 @@ export const Secrets = () => {
                         );
                     })}
                 </div>
-                <button type="button">Log out</button>
+                <Button 
+                type="button"
+                onClick={handleLogOut}
+                variant="contained">
+                    Log out
+                </Button>
+
+                {/* <button type="button">Log out</button> */}
             </div>
         </div>
     )

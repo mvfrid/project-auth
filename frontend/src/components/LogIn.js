@@ -16,11 +16,11 @@ Button,
 Grid, 
 CircularProgress } from '@mui/material';
 
-export const SignIn = () => {
+export const LogIn = () => {
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [mode, setMode] = useState("login");
+    const mode = "login";
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const accessToken = useSelector(store => store.user.accessToken);
