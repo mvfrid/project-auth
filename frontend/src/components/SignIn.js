@@ -4,7 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { user } from "reducers/user";
 import { API_URL } from "utils/urls";
 
+
+//MUI template imports
+import { 
+CssBaseline, 
+Container, 
+Typography, 
+Box,  
+TextField, 
+Button, 
+Grid, 
+CircularProgress } from '@mui/material';
+
 export const SignIn = () => {
+    const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [mode, setMode] = useState("login");
@@ -42,10 +55,67 @@ export const SignIn = () => {
                     dispatch(user.actions.setError(data.response))
                 }
             })
-    }
+            .finally(() => { setLoading(false) })
+    };
+
     return(
-        <>  
-            <label htmlFor="register">Register</label>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" noValidate onSubmit={onFormSubmit} sx={{ mt: 1 }}>
+            <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                value={username}
+                onChange={e => setUsername(e.target.value)} />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)} />
+                </Grid>
+            <Typography variant="body1" color="red" textTransform={'uppercase'} margin={'5px auto'}> 
+            </Typography>
+            </Grid>
+            {!loading &&
+            <Button
+              type="signin"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}>
+                Submit
+            </Button>}
+          <Grid container>
+          </Grid>
+        </Box>
+        {loading && <CircularProgress style={{ margin: '20px' }} />}
+      </Box>
+    </Container>
+  );
+};
+        
+
+            {/* <label htmlFor="register">Register</label>
             <input 
                 type="radio" 
                 id="register" 
@@ -71,8 +141,5 @@ export const SignIn = () => {
                     value={password} 
                     onChange={e => setPassword(e.target.value)} />
                 <button type="submit">Submit</button>
-        </form>
-        </>
-       
-    );
-}
+        </form> */}
+        
