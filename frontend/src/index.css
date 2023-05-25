@@ -93,6 +93,13 @@ code {
   font-weight: 500;
 }
 
+.logo {
+  font-size: 40px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
 @media (min-width: 1025px) {
   .main {
     width: 60%;

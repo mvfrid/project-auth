@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 
 //MUI template imports
@@ -17,7 +17,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export const Hamburger = () => {
   const [open, setOpen] = useState(false);
-  const anchorRef = React.useRef(null);
+  const anchorRef = useRef(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -40,9 +40,9 @@ export const Hamburger = () => {
     }
   }
 
-    // return focus to the button when we transitioned from !open -> open
-    const prevOpen = React.useRef(open);
-    React.useEffect(() => {
+    const prevOpen = useRef(open);
+
+    useEffect(() => {
       if (prevOpen.current === true && open === false) {
         anchorRef.current.focus();
       }
@@ -52,7 +52,9 @@ export const Hamburger = () => {
 
 
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack
+      direction="row"
+      spacing={2}>
       <div>
         <IconButton
           ref={anchorRef}
@@ -67,7 +69,8 @@ export const Hamburger = () => {
           aria-label="open drawer"
           sx={{ 
             mr: 3, 
-            margin: 0
+            margin: 0,
+            padding: '12px 16px 12px 0'
           }}
         >
           <MenuIcon
@@ -81,6 +84,7 @@ export const Hamburger = () => {
           placement="bottom-start"
           transition
           disablePortal
+          sx={{ zIndex: '1'}}
         >
           {({ TransitionProps, placement }) => (
             <Grow
@@ -90,22 +94,32 @@ export const Hamburger = () => {
                   placement === 'bottom-start' ? 'left top' : 'left bottom',
               }}
             >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
+              <Paper sx={{ background: '#0c6fba66'}}>
+                <ClickAwayListener
+                 onClickAway={handleClose}
+                 >
                   <MenuList
                     autoFocusItem={open}
                     id="composition-menu"
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem>
+                    <MenuItem
+                      sx={{ 
+                        padding: '15px 33px'
+                      }}>
                       <NavLink
+                        className="nav-link"
                         to="/register">
                           Sign up
                       </NavLink>
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem
+                      sx={{ 
+                        padding: '15px 33px 35.7px 33px'
+                      }}>
                     <NavLink
+                        className="nav-link"
                         to="/login">
                           Log in
                       </NavLink>
