@@ -13,17 +13,21 @@ Typography,
 Box,  
 TextField, 
 Button, 
-Grid, 
+Grid,
 CircularProgress } from '@mui/material';
 
 export const LogIn = () => {
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loginError, setLoginError] = useState(false);
+
     const mode = "login";
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const accessToken = useSelector(store => store.user.accessToken);
+
     useEffect(() => {
         if(accessToken) {
             navigate("/secrets")
@@ -48,15 +52,25 @@ export const LogIn = () => {
                     dispatch(user.actions.setUsername(data.response.username));
                     dispatch(user.actions.setUserId(data.response.id));
                     dispatch(user.actions.setError(null));
+                    setLoginError(false);
                 } else {
                     dispatch(user.actions.setAccessToken(null));
                     dispatch(user.actions.setUsername(null));
                     dispatch(user.actions.setUserId(null));
                     dispatch(user.actions.setError(data.response))
+                    setLoginError(true);
                 }
             })
             .finally(() => { setLoading(false) })
     };
+
+        const handleModeChange = () => {
+        if (mode === 'login') {
+          setMode('register');
+        } else {
+          setMode('login');
+        }
+      };
 
     return(
         <Container component="main" maxWidth="xs">
@@ -81,7 +95,10 @@ export const LogIn = () => {
                 id="username"
                 label="Username"
                 value={username}
-                onChange={e => setUsername(e.target.value)} />
+                onChange={e => setUsername(e.target.value)}
+                error={loginError}
+                helperText={loginError ? mode === 'login' ? 'Wrong username' : 'Name taken' : ''}
+                />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -93,9 +110,13 @@ export const LogIn = () => {
                 id="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
+                autoComplete="current-password"
+                error={loginError}
+                helperText={loginError ? mode === 'login' ? 'Credentials do not match' : '' : ''}
               />
                 </Grid>
             <Typography variant="body1" color="red" textTransform={'uppercase'} margin={'5px auto'}> 
+            {handleModeChange}
             </Typography>
             </Grid>
             {!loading &&
@@ -107,6 +128,7 @@ export const LogIn = () => {
                 Submit
             </Button>}
           <Grid container>
+            {}
           </Grid>
         </Box>
         {loading && <CircularProgress style={{ margin: '20px' }} />}
