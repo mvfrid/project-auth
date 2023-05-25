@@ -30,11 +30,15 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    minLength: 2,
+    maxLength: 30
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    minLength: 6,
+    maxLength: 30
   },
   accessToken: {
     type: String,
@@ -102,7 +106,9 @@ app.post("/login", async (req, res) => {
 const SecretSchema = new mongoose.Schema({
   message: {
     type: String,
-    required: true
+    required: true,
+    minLength: 2,
+    maxLength: 150
   },
   createdAt: {
     type: Date,
