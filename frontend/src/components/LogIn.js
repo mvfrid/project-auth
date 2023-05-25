@@ -66,6 +66,7 @@ export const LogIn = () => {
     }
 
       return(
+        <div className="main-container">
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -76,8 +77,11 @@ export const LogIn = () => {
               alignItems: 'center',
             }}
           >
-            <Typography component="h1" variant="h5">
-              Sign in
+            <Typography component="h1" variant="h5" sx={{
+              paddingTop: 3,
+              marginBottom: 1
+            }}>
+              Log in
             </Typography>
             <Box component="form" noValidate onSubmit={onFormSubmit} sx={{ mt: 1 }}>
             <Grid container spacing={2}>
@@ -107,7 +111,7 @@ export const LogIn = () => {
                 helperText={loginError ? mode === 'login' ? 'Credentials do not match' : '': ''} />
                 </Grid>
             <Typography variant="body1" color="red" textTransform={'uppercase'} margin={'5px auto'}>
-</Typography>
+            </Typography>
             </Grid>
             {!loading &&
             <Button
@@ -115,15 +119,23 @@ export const LogIn = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}>
-                Submit
+                Log in
             </Button>}
           <Grid container>
           </Grid>
         </Box>
         {loading && <CircularProgress style={{ margin: '20px' }} />}
-        {loginError && <button type="button" onClick={handleRegisterButton}>Register</button>}
+        {loginError && 
+        <Button
+          type="button"
+          fullWidth
+          variant="contained"
+          onClick={handleRegisterButton}>
+            Register new user
+        </Button>}
       </Box>
     </Container>
+    </div>
   );
 };
         
