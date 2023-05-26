@@ -13,8 +13,8 @@ Typography,
 Box,  
 TextField, 
 Button, 
-Grid, 
-CircularProgress } from '@mui/material';
+Grid } from '@mui/material';
+import { LoaderSmall } from "./LoaderSmall";
 
 export const LogIn = () => {
     const [loading, setLoading] = useState(false);
@@ -41,7 +41,10 @@ export const LogIn = () => {
             body: JSON.stringify({username: username, password: password})
         }
         fetch(API_URL(mode), options)
-            .then(data => data.json())
+            .then(data => {
+              data.json()
+              setLoading(true)
+            })
             .then(data => {
                 if(data.success) {
                     console.log(data)
@@ -58,7 +61,9 @@ export const LogIn = () => {
                     setLoginError(true);
                 }
             })
-            .finally(() => { setLoading(false) })
+            .finally(() => {
+              setTimeout(() => setLoading(false), 2000)
+            })
     };
 
     const handleRegisterButton = () => {
@@ -124,7 +129,7 @@ export const LogIn = () => {
           <Grid container>
           </Grid>
         </Box>
-        {loading && <CircularProgress style={{ margin: '20px' }} />}
+        {loading && <LoaderSmall />}
         {loginError && 
         <Button
           type="button"

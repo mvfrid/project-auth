@@ -17,6 +17,6 @@ export const secrets = createSlice({
             },
             deleteItem: (store, action) => {
                 store.items.splice(action.payload, 1);
-              }
+            }
         }
     });

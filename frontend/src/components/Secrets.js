@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { secrets } from "reducers/secrets";
 import { API_URL } from "utils/urls";
 import { Button, TextField, Typography, IconButton } from '@mui/material';
+import { formatDistance } from 'date-fns';
 import { Clear } from '@mui/icons-material';
 import { EmptyState } from "./EmptyState"
 import { Loader } from './Loader'
@@ -82,10 +83,6 @@ export const Secrets = () => {
         setTimeout(() => setLoading(false), 2000)
     };
 
-    const onSecretDelete = (index) => {
-        dispatch(secrets.actions.deleteItem(index));
-    };
-
     return (
         <div className="main secrets">
             <div className="secret-wrapper">
@@ -131,7 +128,7 @@ export const Secrets = () => {
                 ? (
                     <div className="secret-posts loading">
                         <Loader />
-                    </div>
+                    </div>             
                 ) : (
                     <div
                         className="secret-posts"
@@ -156,6 +153,7 @@ export const Secrets = () => {
                                 }}
                             >
                                 <p>{item.message}</p>
+                                <p>{formatDistance(new Date(item.createdAt), Date.now(), { addSuffix: true })}</p>
                                 <IconButton
                                     onClick={() => onSecretDelete(secretIndex)}>
                                     <Clear

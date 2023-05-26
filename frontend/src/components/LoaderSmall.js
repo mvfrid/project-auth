@@ -1,7 +1,7 @@
 import React from 'react'
 import { Player } from '@lottiefiles/react-lottie-player';
 
-export const Loader = () => {
+export const LoaderSmall = () => {
 
   return (
     <div className="empty-container">
@@ -10,7 +10,7 @@ export const Loader = () => {
         loop
         autoplay
         style={{
-          width: '200px'
+          width: '120px'
         }}
       />
     </div>

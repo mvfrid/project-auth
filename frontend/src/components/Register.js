@@ -13,8 +13,8 @@ Typography,
 Box,  
 TextField, 
 Button, 
-Grid, 
-CircularProgress } from '@mui/material';
+Grid } from '@mui/material';
+import { LoaderSmall } from "./LoaderSmall";
 
 export const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -62,7 +62,7 @@ export const Register = () => {
                 }
             })
             .finally(() => {
-              setTimeout(() => setLoading(false), 20000)
+              setTimeout(() => setLoading(false), 2000)
           })
     };
 
@@ -125,7 +125,9 @@ export const Register = () => {
           <Grid container>
           </Grid>
         </Box>
-        {loading && <CircularProgress style={{ margin: '20px' }} />}
+        {loading &&
+          <LoaderSmall />
+        }
       </Box>
     </Container>
     </div>
