@@ -62,7 +62,7 @@ export const Register = () => {
                 }
             })
             .finally(() => {
-              setTimeout(() => setLoading(false), 2000)
+              setTimeout(() => setLoading(false), 20000)
           })
     };
 

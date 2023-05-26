@@ -197,9 +197,4 @@ code {
   .main.secrets {
     bottom: -11%;
   }
-
-  .empty-container {
-    width: 100vw;
-    height: 100vh;
-  }
 }
