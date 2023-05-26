@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-/* import { user } from "reducers/user"; */
 import { secrets } from "reducers/secrets";
 import { API_URL } from "utils/urls";
 import { Button, TextField, Typography, IconButton } from '@mui/material';
 import { Clear } from '@mui/icons-material';
 import { EmptyState } from "./EmptyState"
+import { Loader } from './Loader'
 
 export const Secrets = () => {
     const [message, setMessage] = useState("");
+    const [Loading, setLoading] = useState(false);
     const secretItems = useSelector((store)  => store.secrets.items);
     const accessToken = useSelector((store) => store.user.accessToken);
     const username = useSelector((store) => store.user.username);
@@ -31,7 +32,10 @@ export const Secrets = () => {
             }
         }
         fetch(API_URL("secrets"), options)
-            .then(data => data.json())
+            .then(data => {
+                data.json()
+                setLoading(true)
+            })
             .then(data => {
                 if(data.success) {
                     console.log('data:', data)
@@ -43,9 +47,14 @@ export const Secrets = () => {
                     dispatch(secrets.actions.setItems([]));
                 }
             })
+            .catch((error) => console.log(error))
+            .finally(() => {
+                setTimeout(() => setLoading(false), 2000)
+            })
     }, []);
 
     const handleSubmit = async () => {
+        setLoading(true)
         const options = {
             method: "POST",
             headers: {
@@ -70,6 +79,7 @@ export const Secrets = () => {
         } catch (error) {
             console.log("Error:", error);
         }
+        setTimeout(() => setLoading(false), 2000)
     };
 
     const onSecretDelete = (index) => {
@@ -79,8 +89,6 @@ export const Secrets = () => {
     return (
         <div className="main secrets">
             <div className="secret-wrapper">
-                {/* <h2>Hello {username}!</h2> */}
-              {/*   <h3>Write down your secrets here:</h3> */}
                 <div className="secret-form">
                     <Typography
                         variant="overline"
@@ -120,8 +128,22 @@ export const Secrets = () => {
                         Post Secret
                     </Button>
                 </div>
-                <div className="secret-posts">
-                        {secretItems.length > 0 
+                {Loading 
+                ? (
+                    <div className="secret-posts loading">
+                        <Loader />
+                    </div>
+                ) : (
+                    <div
+                        className="secret-posts"
+                        style={secretItems.length === 0
+                            ? {
+                                padding: '0 20px'
+                            } : {
+                                padding: '20px' 
+                            }}
+                        >
+                    {secretItems.length > 0 
                         && secretItems.map((item, secretIndex) => {
                             return (
                             <div
@@ -146,12 +168,14 @@ export const Secrets = () => {
                                 </IconButton>
                             </div>
                             );
-                        })}
-                    {secretItems.length === 0
-                    && (
-                        <EmptyState />
-                    )}
-                </div>
+                            })}
+                        {secretItems.length === 0
+                        && (
+                            <EmptyState />
+                        )}
+                    </div>
+                ) }
+
             </div>
         </div>
     )

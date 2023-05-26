@@ -25,7 +25,6 @@ export const Register = () => {
     const navigate = useNavigate();
     const mode = "register"
     const accessToken = useSelector(store => store.user.accessToken);
-
     useEffect(() => {
         if(accessToken) {
             navigate("/secrets")
@@ -42,7 +41,10 @@ export const Register = () => {
             body: JSON.stringify({username: username, password: password})
         }
         fetch(API_URL(mode), options)
-            .then(data => data.json())
+            .then(data => {
+              data.json()
+              setLoading(true)
+          })
             .then(data => {
                 if(data.success) {
                     console.log(data)
@@ -59,7 +61,9 @@ export const Register = () => {
                     setLoginError(true);
                 }
             })
-            .finally(() => { setLoading(false) })
+            .finally(() => {
+              setTimeout(() => setLoading(false), 2000)
+          })
     };
 
     return(
@@ -112,7 +116,7 @@ export const Register = () => {
             </Grid>
             {!loading &&
             <Button
-              type="signin"
+              type="login"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}>
