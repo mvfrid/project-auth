@@ -110,7 +110,6 @@ export const Secrets = () => {
                         multiline
                         rows={2}
                         defaultValue="Default Value"
-                        variant="outlined"
                         margin="normal"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}

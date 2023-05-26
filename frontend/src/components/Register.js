@@ -116,7 +116,7 @@ export const Register = () => {
             </Grid>
             {!loading &&
             <Button
-              type="login"
+              type="signin"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}>
