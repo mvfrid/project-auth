@@ -150,7 +150,7 @@ app.get("/secrets", async (req, res) => {
     const user = await User.findOne({ accessToken: accessToken });
 
     if (user) {
-      const secrets = await Secret.find({ username: user._id });
+      const secrets = await Secret.find({ username: user._id }).sort({ createdAt: -1 }).limit(20).exec();
       res.status(200).json({
         success: true,
         response: secrets,
