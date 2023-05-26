@@ -41,10 +41,7 @@ export const Register = () => {
             body: JSON.stringify({username: username, password: password})
         }
         fetch(API_URL(mode), options)
-            .then(data => {
-              data.json()
-              setLoading(true)
-          })
+          .then(data => data.json())
             .then(data => {
                 if(data.success) {
                     console.log(data)

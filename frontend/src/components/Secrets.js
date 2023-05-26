@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { secrets } from "reducers/secrets";
 import { API_URL } from "utils/urls";
 import { Button, TextField, Typography, IconButton } from '@mui/material';
-import { formatDistance } from 'date-fns';
 import { Clear } from '@mui/icons-material';
 import { EmptyState } from "./EmptyState"
 import { Loader } from './Loader'
@@ -33,10 +32,7 @@ export const Secrets = () => {
             }
         }
         fetch(API_URL("secrets"), options)
-            .then(data => {
-                data.json()
-                setLoading(true)
-            })
+            .then(data => data.json())
             .then(data => {
                 if(data.success) {
                     console.log('data:', data)
@@ -55,7 +51,6 @@ export const Secrets = () => {
     }, []);
 
     const handleSubmit = async () => {
-        setLoading(true)
         const options = {
             method: "POST",
             headers: {
@@ -153,7 +148,6 @@ export const Secrets = () => {
                                 }}
                             >
                                 <p>{item.message}</p>
-                                <p>{formatDistance(new Date(item.createdAt), Date.now(), { addSuffix: true })}</p>
                                 <IconButton
                                     onClick={() => onSecretDelete(secretIndex)}>
                                     <Clear
