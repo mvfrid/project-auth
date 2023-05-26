@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
 
 //MUI template imports
 import { 
@@ -117,7 +116,7 @@ export const Hamburger = () => {
                     </MenuItem>
                     <MenuItem
                       sx={{ 
-                        padding: '15px 33px 35.7px 33px'
+                        padding: '15px 33px 20px 33px'
                       }}>
                     <NavLink
                         className="nav-link"

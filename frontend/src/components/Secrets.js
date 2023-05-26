@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { user } from "reducers/user";
+/* import { user } from "reducers/user"; */
 import { secrets } from "reducers/secrets";
 import { API_URL } from "utils/urls";
-import { Button } from '@mui/material';
+import { Button, TextField, Typography, IconButton } from '@mui/material';
+import { Clear } from '@mui/icons-material';
+import { EmptyState } from "./EmptyState"
 
 export const Secrets = () => {
     const [message, setMessage] = useState("");
@@ -70,38 +72,86 @@ export const Secrets = () => {
         }
     };
 
-    const handleLogOut = () => {
-        dispatch(user.actions.signOut());
-        if(!accessToken) {
-            navigate("/login")
-        }
-    }
-
+    const onSecretDelete = (index) => {
+        dispatch(secrets.actions.deleteItem(index));
+    };
 
     return (
-        <div className="main">
+        <div className="main secrets">
             <div className="secret-wrapper">
-                <h2>Hello {username}</h2>
-                <h3>Write down your secrets here:</h3>
-                <textarea value={message} onChange={(e) => setMessage(e.target.value)} />
-                <button type="button" onClick={handleSubmit}>Submit</button>
-                <div className="secret-posts">
-                    {secretItems.map((item) => {
-                        return (
-                        <div className="post">
-                            <p>{item.message}</p>
-                        </div>
-                        );
-                    })}
+                {/* <h2>Hello {username}!</h2> */}
+              {/*   <h3>Write down your secrets here:</h3> */}
+                <div className="secret-form">
+                    <Typography
+                        variant="overline"
+                        sx={{
+                            fontSize: '2em',
+                            lineHeight: 1.5,
+                            fontWeight:500,
+                            color: '#2d2d2d',
+                            margin: 0,
+                            textAlign: 'center'
+                        }} 
+                        gutterBottom
+                    >
+                        Hello {username}
+                    </Typography>
+                    <TextField
+                        id="outlined-multiline-static"
+                        label="Write you secret here..."
+                        multiline
+                        rows={2}
+                        defaultValue="Default Value"
+                        variant="outlined"
+                        margin="normal"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <Button
+                        onClick={handleSubmit}
+                        variant="contained"
+                        sx={{
+                            width: '180px',
+                            alignSelf: 'center',
+                            background: '#d3acff',
+                            fontWeight: 700
+                        }} size="large"
+                    >
+                        Post Secret
+                    </Button>
                 </div>
-                <Button 
-                type="button"
-                onClick={handleLogOut}
-                variant="contained">
-                    Log out
-                </Button>
-
-                {/* <button type="button">Log out</button> */}
+                <div className="secret-posts">
+                        {secretItems.length > 0 
+                        && secretItems.map((item, secretIndex) => {
+                            return (
+                            <div
+                                className="post"
+                                key={secretIndex}
+                                style={secretIndex % 2 === 0
+                                ? {
+                                    alignSelf: "flex-start"
+                                } : {
+                                    alignSelf: "flex-end" 
+                                }}
+                            >
+                                <p>{item.message}</p>
+                                <IconButton
+                                    onClick={() => onSecretDelete(secretIndex)}>
+                                    <Clear
+                                        sx={{
+                                            fontSize: '16px',
+                                            color: 'black'
+                                        }}
+                                    />
+                                </IconButton>
+                            </div>
+                            );
+                        })}
+                    {secretItems.length === 0
+                    && (
+                        <EmptyState />
+                    )}
+                </div>
             </div>
         </div>
     )

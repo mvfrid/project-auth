@@ -14,7 +14,9 @@ export const secrets = createSlice({
             },
             setItems: (store, action) => {
                 store.items = action.payload
-            }
-
+            },
+            deleteItem: (store, action) => {
+                store.items.splice(action.payload, 1);
+              }
         }
     });
