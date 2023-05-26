@@ -78,6 +78,10 @@ export const Secrets = () => {
         setTimeout(() => setLoading(false), 2000)
     };
 
+    const onSecretDelete = (index) => {
+        dispatch(secrets.actions.deleteItem(index));
+    };
+
     return (
         <div className="main secrets">
             <div className="secret-wrapper">
