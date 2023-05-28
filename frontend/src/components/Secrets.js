@@ -80,12 +80,7 @@ export const Secrets = () => {
     };
 
     const onSecretDelete = (id) => {
-        const updatedSecretItems = secretItems.map((secret) => {
-          if (secret._id === id) {
-            dispatch(secrets.actions.deleteItem(id));
-          }
-          return secret;
-        });
+        const updatedSecretItems = secretItems.filter((secret) => secret._id !== id);
         const options = {
           method: 'DELETE',
           headers: {
@@ -94,13 +89,13 @@ export const Secrets = () => {
             }
         };
       
-        fetch(`https://project-auth-3nbrs2gipa-lz.a.run.app/secrets/${id}`, options)
+        fetch(`http://localhost:8080/secrets/${id}`, options)
         .then((response) => response.json())
         .then(() => {
-        dispatch(secrets.actions.setItems(updatedSecretItems).filter((secret) => secret._id !== id));
+            dispatch(secrets.actions.setItems(updatedSecretItems));
         })
         .catch((error) => console.log(error));
-      };
+    };
 
     return (
         <div className="main secrets">
