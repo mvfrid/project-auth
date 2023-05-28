@@ -89,7 +89,7 @@ export const Secrets = () => {
             }
         };
       
-        fetch(`http://localhost:8080/secrets/${id}`, options)
+        fetch(`https://project-auth-3nbrs2gipa-lz.a.run.app/secrets/${id}`, options)
         .then((response) => response.json())
         .then(() => {
             dispatch(secrets.actions.setItems(updatedSecretItems));
