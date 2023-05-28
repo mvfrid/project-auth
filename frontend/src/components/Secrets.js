@@ -75,12 +75,32 @@ export const Secrets = () => {
         } catch (error) {
             console.log("Error:", error);
         }
+        setMessage('')
         setTimeout(() => setLoading(false), 2000)
     };
 
-    const onSecretDelete = (index) => {
-        dispatch(secrets.actions.deleteItem(index));
-    };
+    const onSecretDelete = (id) => {
+        const updatedSecretItems = secretItems.map((secret) => {
+          if (secret._id === id) {
+            dispatch(secrets.actions.deleteItem(id));
+          }
+          return secret;
+        });
+        const options = {
+          method: 'DELETE',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": accessToken
+            }
+        };
+      
+        fetch(`https://project-auth-3nbrs2gipa-lz.a.run.app/secrets/${id}`, options)
+        .then((response) => response.json())
+        .then(() => {
+        dispatch(secrets.actions.setItems(updatedSecretItems).filter((secret) => secret._id !== id));
+        })
+        .catch((error) => console.log(error));
+      };
 
     return (
         <div className="main secrets">
@@ -153,7 +173,7 @@ export const Secrets = () => {
                             >
                                 <p>{item.message}</p>
                                 <IconButton
-                                    onClick={() => onSecretDelete(secretIndex)}>
+                                    onClick={() => onSecretDelete(item._id)}>
                                     <Clear
                                         sx={{
                                             fontSize: '16px',

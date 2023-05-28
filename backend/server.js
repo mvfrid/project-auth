@@ -218,6 +218,33 @@ app.post("/secrets", async (req, res) => {
   }
 })
 
+app.delete("/secrets/:id", authenticateUser);
+app.delete("/secrets/:id", async (req, res) => {
+  try {
+    const accessToken = req.header("Authorization");
+    const user = await User.findOne({accessToken: accessToken});
+    if (user) {
+      const deletedSecret = await Secret.findByIdAndDelete(req.params.id)
+      res.status(200).json({
+        success: true,
+        response: deletedSecret,
+      });
+    } else {
+      res.status(401).json({
+        success: false,
+        response: "There is no secret with that ID",
+        loggedOut: true,
+      });
+    }
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      response: e,
+      message: "Internal server error",
+    });
+  }
+})
+
 
 
 
