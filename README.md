@@ -14,6 +14,3 @@ Every project should be deployed somewhere. Be sure to include the link to the d
 
 Frontend:
 https://calm-custard-0d2bb8.netlify.app/
-
-Backend:
-https://project-auth-3nbrs2gipa-lz.a.run.app/
