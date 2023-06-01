@@ -11,7 +11,6 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
 
-
 export const App = () => {
 
   const reducer = combineReducers({
